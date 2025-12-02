@@ -1,5 +1,5 @@
 {
-    "name": "htmlburger/wpemerge-cli",
+    "name": "collaborar/wpemerge-cli",
     "version": "0.17.0",
     "description": "CLI tool for WP Emerge.",
     "type": "library",
@@ -10,12 +10,11 @@
             "name": "Atanas Angelov",
             "email": "hi@atanas.dev",
             "homepage": "https://atanas.dev/",
-            "role": "Developer"
+            "role": "Creator"
         },
         {
-            "name": "htmlBurger",
-            "email": "info@htmlburger.com",
-            "homepage": "http://htmlburger.com/",
+            "name": "Paulo Ferreira",
+            "email": "paulo@collaborar.com",
             "role": "Developer"
         }
     ],
