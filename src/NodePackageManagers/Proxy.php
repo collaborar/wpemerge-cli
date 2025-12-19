@@ -51,6 +51,7 @@ class Proxy implements NodePackageManagerInterface {
 	protected function getNodePackageManager() {
 		$is_windows = strtolower( substr( PHP_OS, 0, 3 ) ) === 'win';
 		$node_package_managers = [
+			'pnpm' => Pnpm::class,
 			'yarn' => Yarn::class,
 			'npm' => Npm::class,
 		];
