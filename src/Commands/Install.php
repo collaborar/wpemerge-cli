@@ -153,7 +153,7 @@ class Install extends Command {
 
 		$question = new ChoiceQuestion(
 			'Please select a CSS framework:',
-			['None', 'Bootstrap', 'Bulma', 'Tailwind CSS'],
+			['None', 'Bootstrap', 'Tailwind CSS'],
 			0
 		);
 

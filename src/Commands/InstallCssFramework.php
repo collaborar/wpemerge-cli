@@ -44,10 +44,6 @@ class InstallCssFramework extends Command {
 				$preset = new Bootstrap();
 				break;
 
-			case 'Bulma':
-				$preset = new Bulma();
-				break;
-
 			case 'Tailwind':
 			case 'TailwindCss':
 			case 'TailwindCSS':
