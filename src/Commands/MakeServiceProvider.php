@@ -12,7 +12,7 @@ class MakeServiceProvider extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'make:service-provider' )
 			->setDescription( 'Creates a service provider class file.' )
@@ -23,7 +23,7 @@ class MakeServiceProvider extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$template = new ServiceProvider();
 		$filepath = $template->create( $input->getArgument( 'name' ), getcwd() );
 

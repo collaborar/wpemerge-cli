@@ -14,7 +14,7 @@ class MakeController extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'make:controller' )
 			->setDescription( 'Creates a controller class file.' )
@@ -26,7 +26,7 @@ class MakeController extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$types = [
 			'web' => 'Web',
 			'admin' => 'Admin',

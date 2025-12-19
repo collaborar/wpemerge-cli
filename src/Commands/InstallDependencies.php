@@ -14,7 +14,7 @@ class InstallDependencies extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'install:dependencies' )
 			->setDescription( 'Install Node dependencies.' )
@@ -24,7 +24,7 @@ class InstallDependencies extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$package_manager = new Proxy();
 
 		$package_manager->installAll( getcwd(), $output );

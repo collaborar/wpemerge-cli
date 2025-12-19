@@ -11,7 +11,7 @@ class InstallPhpTests extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'install:php-tests' )
 			->setDescription( 'Install php unit testing environment.' )
@@ -21,7 +21,7 @@ class InstallPhpTests extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$preset = new PhpTests();
 		$preset->execute( getcwd(), $output );
 

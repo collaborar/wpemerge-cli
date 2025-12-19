@@ -14,7 +14,7 @@ class AssetsBuild extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'assets:build' )
 			->setDescription( 'Build project assets.' )
@@ -24,7 +24,7 @@ class AssetsBuild extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$package_manager = new Proxy();
 
 		$package_manager->run( getcwd(), $output, 'build' );

@@ -11,7 +11,7 @@ class InstallCleanComposer extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'install:clean-composer' )
 			->setDescription( 'Clean composer.json from author information.' )
@@ -21,14 +21,14 @@ class InstallCleanComposer extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$directory = getcwd();
 
 		$composer = Composer::getComposerJson( $directory );
 
 		if ( $composer === null ) {
 			$output->writeln( '<failure>Could not find composer.json - skipped cleaning.</failure>' );
-			return;
+			return 1;
 		}
 
 		unset( $composer['name'] );

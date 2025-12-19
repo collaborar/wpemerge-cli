@@ -7,6 +7,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -68,18 +69,17 @@ class App {
 
 		$application = new Application( 'WPEmerge CLI', $composer['version'] );
 
-		$application->add( new AssetsBuild() );
-		$application->add( new CreateConfigJson() );
-		$application->add( new Install() );
-		$application->add( new InstallCarbonFields() );
-		$application->add( new InstallCleanComposer() );
-		$application->add( new InstallCssFramework() );
-		$application->add( new InstallDependencies() );
-		$application->add( new InstallFontAwesome() );
-		$application->add( new InstallPhpTests() );
-		$application->add( new MakeController() );
-		$application->add( new MakeServiceProvider() );
-		$application->add( new MakeViewComposer() );
+		$application->addCommand( new AssetsBuild() );
+		$application->addCommand( new Install() );
+		$application->addCommand( new InstallCarbonFields() );
+		$application->addCommand( new InstallCleanComposer() );
+		$application->addCommand( new InstallCssFramework() );
+		$application->addCommand( new InstallDependencies() );
+		$application->addCommand( new InstallFontAwesome() );
+		$application->addCommand( new InstallPhpTests() );
+		$application->addCommand( new MakeController() );
+		$application->addCommand( new MakeServiceProvider() );
+		$application->addCommand( new MakeViewComposer() );
 
 		return $application;
 	}
@@ -148,10 +148,27 @@ class App {
 
 		$process = new Process( $command, null, null, null, $timeout );
 		$process->setWorkingDirectory( $directory );
+
+		// Enable TTY mode to preserve colors and interactive behavior
+		if ( Process::isTtySupported() ) {
+			$process->setTty( true );
+		}
+
 		$process->start();
 
 		$process->wait( function( $type, $buffer ) use ( $output ) {
-			$output->writeln( $buffer );
+			// Write directly to the output stream to preserve colors
+			if ( $output instanceof StreamOutput ) {
+				$stream = $output->getStream();
+				fwrite( $stream, $buffer );
+			} elseif ( $output instanceof ConsoleOutput ) {
+				// For ConsoleOutput, write to the underlying stream
+				$stream = $output->getStream();
+				fwrite( $stream, $buffer );
+			} else {
+				// Fallback to writeln but without formatting
+				$output->write( $buffer, false, OutputInterface::OUTPUT_RAW );
+			}
 		} );
 
 		if ( ! $process->isSuccessful() ) {

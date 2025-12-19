@@ -2,22 +2,23 @@
 
 namespace WPEmerge\Cli\Commands;
 
+use WPEmerge\Cli\Helpers\Boolean;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Process\Exception\RuntimeException;
-use WPEmerge\Cli\Helpers\Boolean;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Install extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'install' )
 			->setDescription( 'Interactively install options.' )
@@ -27,7 +28,7 @@ class Install extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		if ( ! $input->isInteractive() ) {
 			throw new RuntimeException( 'The install command requires an interactive session.' );
 		}
@@ -72,7 +73,7 @@ class Install extends Command {
 	 * @return boolean
 	 */
 	protected function shouldRemoveComposerAuthorInformation( InputInterface $input, OutputInterface $output ) {
-		$helper = $this->getHelper( 'question' );
+		$helper = new QuestionHelper();
 
 		$question = new ConfirmationQuestion(
 			'Would you like to remove author information from composer.json? <info>[y/N]</info> ',
@@ -112,7 +113,7 @@ class Install extends Command {
 	 * @return boolean
 	 */
 	protected function shouldInstallCarbonFields( InputInterface $input, OutputInterface $output ) {
-		$helper = $this->getHelper( 'question' );
+		$helper = new QuestionHelper();
 
 		$question = new ConfirmationQuestion(
 			'Would you like to install Carbon Fields? <info>[y/N]</info> ',
@@ -148,7 +149,7 @@ class Install extends Command {
 	 * @return string
 	 */
 	protected function shouldInstallCssFramework( InputInterface $input, OutputInterface $output ) {
-		$helper = $this->getHelper( 'question' );
+		$helper = new QuestionHelper();
 
 		$question = new ChoiceQuestion(
 			'Please select a CSS framework:',
@@ -187,7 +188,7 @@ class Install extends Command {
 	 * @return boolean
 	 */
 	protected function shouldInstallFontAwesome( InputInterface $input, OutputInterface $output ) {
-		$helper = $this->getHelper( 'question' );
+		$helper = new QuestionHelper();
 
 		$question = new ConfirmationQuestion(
 			'Would you like to install Font Awesome? <info>[y/N]</info> ',
@@ -224,7 +225,7 @@ class Install extends Command {
 	 * @return boolean
 	 */
 	protected function shouldProceedWithInstall( InputInterface $input, OutputInterface $output, $config ) {
-		$helper = $this->getHelper( 'question' );
+		$helper = new QuestionHelper();
 
 		$output->writeln( 'Configuration:' );
 

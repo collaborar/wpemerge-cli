@@ -12,7 +12,7 @@ class InstallCarbonFields extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'install:carbon-fields' )
 			->setDescription( 'Install Carbon Fields.' )
@@ -27,7 +27,7 @@ class InstallCarbonFields extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$version = $input->getArgument( 'version' );
 
 		$preset = new CarbonFields( $version );

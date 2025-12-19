@@ -11,7 +11,7 @@ class InstallFontAwesome extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'install:font-awesome' )
 			->setDescription( 'Install Font Awesome.' )
@@ -21,7 +21,7 @@ class InstallFontAwesome extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$preset = new FontAwesome();
 		$preset->execute( getcwd(), $output );
 

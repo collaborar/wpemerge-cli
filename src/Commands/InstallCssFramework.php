@@ -19,7 +19,7 @@ class InstallCssFramework extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'install:css-framework' )
 			->setDescription( 'Install a CSS framework.' )
@@ -34,7 +34,7 @@ class InstallCssFramework extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$css_framework = $input->getArgument( 'css-framework' );
 
 		$preset = null;
@@ -78,7 +78,8 @@ class InstallCssFramework extends Command {
 		}
 
 		if ( $preset === null ) {
-			return;
+			$output->writeln( '<failure>Could not define a CSS Framework - skipped.</failure>' );
+			return 1;
 		}
 
 		$preset->execute( getcwd(), $output );

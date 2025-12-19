@@ -12,7 +12,7 @@ class MakeViewComposer extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			->setName( 'make:view-composer' )
 			->setDescription( 'Creates a view composer class file.' )
@@ -23,7 +23,7 @@ class MakeViewComposer extends Command {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function execute( InputInterface $input, OutputInterface $output ) {
+	protected function execute( InputInterface $input, OutputInterface $output ): int {
 		$template = new ViewComposer();
 		$filepath = $template->create( $input->getArgument( 'name' ), getcwd() );
 
