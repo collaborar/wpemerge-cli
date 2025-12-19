@@ -40,24 +40,12 @@ class InstallCssFramework extends Command {
 		$preset = null;
 
 		switch ( $css_framework ) {
-			case 'Normalize.css':
-				$preset = new NormalizeCss();
-				break;
-
 			case 'Bootstrap':
 				$preset = new Bootstrap();
 				break;
 
 			case 'Bulma':
 				$preset = new Bulma();
-				break;
-
-			case 'Foundation':
-				$preset = new Foundation();
-				break;
-
-			case 'Tachyons':
-				$preset = new Tachyons();
 				break;
 
 			case 'Tailwind':
@@ -67,14 +55,8 @@ class InstallCssFramework extends Command {
 				$preset = new TailwindCss();
 				break;
 
-			case 'Spectre':
-			case 'Spectre.css':
-				$preset = new Spectre();
-				break;
-
 			default:
 				throw new RuntimeException( 'Unknown css framework selected: ' . $css_framework );
-				break;
 		}
 
 		if ( $preset === null ) {
