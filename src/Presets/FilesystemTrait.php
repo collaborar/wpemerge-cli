@@ -90,4 +90,65 @@ trait FilesystemTrait {
 
 		file_put_contents( $filepath, $contents );
 	}
+
+	/**
+	 * Delete files or directories, returning an array of failures.
+	 *
+	 * @param  array|string $files
+	 * @return array
+	 */
+	protected function delete( $files ) {
+		$failures = [];
+
+		// Normalize input to array
+		if ( ! is_array( $files ) ) {
+			$files = [ $files ];
+		}
+
+		foreach ( $files as $file ) {
+			if ( ! file_exists( $file ) ) {
+				continue;
+			}
+
+			$success = false;
+
+			if ( is_dir( $file ) ) {
+				$success = $this->deleteDirectory( $file );
+			} else {
+				$success = @unlink( $file );
+			}
+
+			if ( ! $success ) {
+				$failures[] = $file;
+			}
+		}
+
+		return $failures;
+	}
+
+	/**
+	 * Recursively delete a directory and its contents.
+	 *
+	 * @param  string $directory
+	 * @return boolean
+	 */
+	protected function deleteDirectory( $directory ) {
+		if ( ! is_dir( $directory ) ) {
+			return false;
+		}
+
+		$files = array_diff( scandir( $directory ), [ '.', '..' ] );
+
+		foreach ( $files as $file ) {
+			$path = $this->path( $directory, $file );
+
+			if ( is_dir( $path ) ) {
+				$this->deleteDirectory( $path );
+			} else {
+				@unlink( $path );
+			}
+		}
+
+		return @rmdir( $directory );
+	}
 }

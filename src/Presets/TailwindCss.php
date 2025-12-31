@@ -19,29 +19,29 @@ class TailwindCss implements PresetInterface {
 	 * {@inheritDoc}
 	 */
 	public function execute( $directory, OutputInterface $output ) {
-		$this->installNodePackage( $directory, $output, 'tailwindcss', '^3' );
+		$this->installNodePackage( directory: $directory, output: $output, package: 'tailwindcss', dev: true );
+		$this->installNodePackage( directory: $directory, output: $output, package: '@tailwindcss/postcss', dev: true );
 
-		$this->copy([
-			$this->path( WPEMERGE_CLI_DIR, 'src', 'TailwindCss', 'tailwindcss.scss' )
-			=> $this->path( $directory, 'resources', 'styles', 'frontend', 'vendor', 'tailwindcss.scss' ),
-			$this->path( WPEMERGE_CLI_DIR, 'src', 'TailwindCss', 'tailwindcss.js' )
-			=> $this->path( $directory, 'resources', 'build', 'tailwindcss.js' ),
-		]);
+		$frontend = $this->path( $directory, 'resources', 'styles', 'frontend' );
 
-		$postcss_js_filepath = $this->path( $directory, 'resources', 'build', 'postcss.js' );
+		$this->delete( $frontend );
+
+		if ( ! file_exists( $frontend ) ) {
+			mkdir( $frontend );
+		}
+
+		$copy_list = [
+			$this->path( WPEMERGE_CLI_DIR, 'src', 'TailwindCss', 'frontend', 'index.css' )
+				=> $this->path( $frontend, 'index.css' ),
+		];
+
+		$failures = $this->copy( $copy_list );
+
+		foreach ( $failures as $source => $destination ) {
+			$output->writeln( '<failure>File ' . $destination . ' already exists - skipped.</failure>' );
+		}
+
+		$postcss_js_filepath = $this->path( $directory, '.postcssrc.js' );
 		$this->enablePreset( $postcss_js_filepath, 'Tailwind CSS' );
-
-		$development_mode_plugin_js_filepath = $this->path( $directory, 'resources', 'build', 'lib', 'development-mode-plugin.js' );
-		$this->enablePreset( $development_mode_plugin_js_filepath, 'Tailwind CSS' );
-
-		$components_dir = $this->path( $directory, 'resources', 'styles', 'frontend', 'components' );
-		if ( ! file_exists( $components_dir ) ) {
-			mkdir( $components_dir );
-		}
-
-		$utilities_dir = $this->path( $directory, 'resources', 'styles', 'frontend', 'utilities' );
-		if ( ! file_exists( $utilities_dir ) ) {
-			mkdir( $utilities_dir );
-		}
 	}
 }
