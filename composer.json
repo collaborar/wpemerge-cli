@@ -1,5 +1,6 @@
 {
     "name": "collaborar/wpemerge-cli",
+    "version": "0.18.0",
     "description": "CLI tool for WP Emerge.",
     "type": "library",
     "license": "GPL-2.0-only",
